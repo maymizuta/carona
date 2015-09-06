@@ -15,7 +15,7 @@ class UsersController extends AppController {
  *
  * @var array
  */
-	public $components = array('Paginator', 'Flash', 'Session');
+	public $components = array('Paginator', 'Flash', 'Session','RequestHandler');
 
 /**
  * index method
@@ -26,6 +26,16 @@ class UsersController extends AppController {
 		$this->User->recursive = 0;
 		$this->set('users', $this->Paginator->paginate());
 	}
+ /**
+ * index method api
+ *
+ * @return void
+ */
+        public function api_index() {
+                $users =$this->User->find('all');
+                $this->set(array('users'=>$users, '_serialize'=>array('users')));
+        }
+
 
 /**
  * view method
@@ -58,6 +68,29 @@ class UsersController extends AppController {
 			}
 		}
 	}
+
+/**
+ * add method
+ *
+ * @return void
+ */
+        public function api_add() {
+	$this->data = $this->request->input('json_decode');
+                if ($this->request->is('post')) {
+                        $this->User->create();
+                        if ($this->User->save($this->request->data)) {
+				$message = "usuário salvo";
+	          	      $this->set(array('message'=>$message, '_serialize'=>array('message')));
+
+                             //   $this->Flash->success(__('The user has been saved.'));
+                            //   return $this->redirect(array('action' => 'index'));
+                        } else {
+                              $message = "Não foi possível salvar o usuário";
+                              $this->set(array('message'=>$message, '_serialize'=>array('message')));
+                             //   $this->Flash->error(__('The user could not be saved. Please, try again.'));
+                        }
+                }
+        }
 
 /**
  * edit method
