@@ -33,7 +33,7 @@ class UsersController extends AppController {
  */
         public function api_index() {
                 $users =$this->User->find('all');
-                $this->set(array('_serialize'=>array($users)));
+                $this->set(array('users'=>$users, '_serialize'=>array('users')));
         }
 
 
