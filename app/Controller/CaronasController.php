@@ -13,7 +13,7 @@ class CaronasController extends AppController {
  *
  * @var array
  */
-	public $components = array('Paginator');
+	public $components = array('Paginator','RequestHandler');
 
 /**
  * index method
@@ -24,6 +24,18 @@ class CaronasController extends AppController {
 		$this->Carona->recursive = 0;
 		$this->set('caronas', $this->Paginator->paginate());
 	}
+
+
+/**
+ * index method api
+ *
+ * @return void
+ */
+        public function api_index() {
+                $caronas =$this->Carona->find('all');
+                $this->set(array('caronas'=>$caronas, '_serialize'=>array('caronas')));
+        }
+
 
 /**
  * view method
