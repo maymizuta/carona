@@ -14,7 +14,7 @@ class HistoricosController extends AppController {
  *
  * @var array
  */
-	public $components = array('Paginator', 'Flash');
+	public $components = array('Paginator', 'Flash', 'Session','RequestHandler');
 
 /**
  * index method
@@ -25,7 +25,11 @@ class HistoricosController extends AppController {
 		$this->Historico->recursive = 0;
 		$this->set('historicos', $this->Paginator->paginate());
 	}
-
+    //new 
+          public function api_index() {
+                $historico =$this->Historico->find('all');
+                $this->set(array('historico'=>$historico, '_serialize'=>'historico'));
+        }
 /**
  * view method
  *
@@ -54,6 +58,29 @@ class HistoricosController extends AppController {
 			}
 		}
 	}
+        
+                /**
+ * add method
+ *
+ * @return void
+ */
+        public function api_add() {
+	$this->data = $this->request->input('json_decode');
+                if ($this->request->is('post')) {
+                        $this->Historico->create();
+                        if ($this->Historico->save($this->request->data)) {
+				$message = "Historico realizado com sucesso";
+	          	      $this->set(array('message'=>$message, '_serialize'=>array('message')));
+
+                             //   $this->Flash->success(__('The user has been saved.'));
+                            //   return $this->redirect(array('action' => 'index'));
+                        } else {
+                              $message = "Não foi possível salvar o historico";
+                              $this->set(array('message'=>$message, '_serialize'=>array('message')));
+                             //   $this->Flash->error(__('The user could not be saved. Please, try again.'));
+                        }
+                }
+        }
 
 /**
  * edit method

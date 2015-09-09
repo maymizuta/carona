@@ -15,7 +15,7 @@ class AgendamentosController extends AppController {
  *
  * @var array
  */
-	public $components = array('Paginator', 'Flash', 'Session');
+	public $components = array('Paginator', 'Flash', 'Session','RequestHandler');
 
 /**
  * index method
@@ -26,6 +26,12 @@ class AgendamentosController extends AppController {
 		$this->Agendamento->recursive = 0;
 		$this->set('agendamentos', $this->Paginator->paginate());
 	}
+        
+    //new 
+          public function api_index() {
+                $agendamento =$this->Agendamento->find('all');
+                $this->set(array('agendamento'=>$agendamento, '_serialize'=>'agendamento'));
+        }
 
 /**
  * view method
@@ -58,6 +64,30 @@ class AgendamentosController extends AppController {
 			}
 		}
 	}
+        
+        /**
+ * add method
+ *
+ * @return void
+ */
+        public function api_add() {
+	$this->data = $this->request->input('json_decode');
+                if ($this->request->is('post')) {
+                        $this->Agendamento->create();
+                        if ($this->Agendamento->save($this->request->data)) {
+				$message = "Agendamento realizado com sucesso";
+	          	      $this->set(array('message'=>$message, '_serialize'=>array('message')));
+
+                             //   $this->Flash->success(__('The user has been saved.'));
+                            //   return $this->redirect(array('action' => 'index'));
+                        } else {
+                              $message = "Não foi possível salvar o agendamento";
+                              $this->set(array('message'=>$message, '_serialize'=>array('message')));
+                             //   $this->Flash->error(__('The user could not be saved. Please, try again.'));
+                        }
+                }
+        }
+
 
 /**
  * edit method

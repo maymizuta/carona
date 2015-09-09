@@ -25,7 +25,11 @@ class VeiculosController extends AppController {
 		$this->Veiculo->recursive = 0;
 		$this->set('veiculos', $this->Paginator->paginate());
 	}
-
+        //novo
+        public function api_index() {
+                $veiculo =$this->Veiculo->find('all');
+                $this->set(array('veiculo'=>$veiculo, '_serialize'=>'veiculo'));
+        }
 /**
  * view method
  *
@@ -54,7 +58,28 @@ class VeiculosController extends AppController {
 			}
 		}
 	}
+/**
+ * add method
+ *
+ * @return void
+ */
+        public function api_add() {
+	$this->data = $this->request->input('json_decode');
+                if ($this->request->is('post')) {
+                        $this->Veiculo->create();
+                        if ($this->Veiculo->save($this->request->data)) {
+				$message = "Veiculo salvo";
+	          	      $this->set(array('message'=>$message, '_serialize'=>array('message')));
 
+                             //   $this->Flash->success(__('The user has been saved.'));
+                            //   return $this->redirect(array('action' => 'index'));
+                        } else {
+                              $message = "Não foi possível salvar o veiculo";
+                              $this->set(array('message'=>$message, '_serialize'=>array('message')));
+                             //   $this->Flash->error(__('The user could not be saved. Please, try again.'));
+                        }
+                }
+        }
 /**
  * edit method
  *

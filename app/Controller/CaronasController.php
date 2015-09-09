@@ -13,7 +13,7 @@ class CaronasController extends AppController {
  *
  * @var array
  */
-	public $components = array('Paginator','RequestHandler');
+	public $components = array('Paginator');
 
 /**
  * index method
@@ -25,6 +25,7 @@ class CaronasController extends AppController {
 		$this->set('caronas', $this->Paginator->paginate());
 	}
 
+<<<<<<< HEAD
 
 /**
  * index method api
@@ -37,6 +38,8 @@ class CaronasController extends AppController {
         }
 
 
+=======
+>>>>>>> 251cb213fb21b1077018261ce357299e67a92110
 /**
  * view method
  *
