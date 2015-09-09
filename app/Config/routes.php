@@ -34,7 +34,7 @@
  * Criando um serviço Rest
  */
 
-	Router::mapResources('users');
+	Router::mapResources(array('users','caronas'));
 	Router::parseExtensions();
 
 
