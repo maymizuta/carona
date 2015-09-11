@@ -13,11 +13,18 @@ class User extends AppModel {
  */
 	public $useDbConfig = 'caronasolidaria';
 
-/**
- * Display field
- *
- * @var string
- */
-	public $displayField = 'nome';
+
+
+    /**
+     * Antes de salvar, criptografa a senha do usuario.
+     * @param type $options
+     * @return boolean
+     */
+    public function beforeSave($options = array()) {
+        if (!empty($this->data['User']['password'])) {
+            $this->data['User']['password'] = AuthComponent::password($this->data['User']['password']);
+        }
+        return true;
+    }
 
 }
