@@ -13,7 +13,7 @@ class CaronasController extends AppController {
  *
  * @var array
  */
-	public $components = array('Paginator');
+	public $components = array('Paginator', 'RequestHandler');
 
 /**
  * index method
@@ -25,7 +25,6 @@ class CaronasController extends AppController {
 		$this->set('caronas', $this->Paginator->paginate());
 	}
 
-<<<<<<< HEAD
 
 /**
  * index method api
@@ -33,13 +32,10 @@ class CaronasController extends AppController {
  * @return void
  */
         public function api_index() {
-                $data =$this->Carona->find('all');
-                $this->set(array('carona'=>$data, '_serialize'=>'carona'));
+                $carona =$this->Carona->find('all');
+                $this->set(array('carona'=>$carona, '_serialize'=>'carona'));
         }
 
-
-=======
->>>>>>> 251cb213fb21b1077018261ce357299e67a92110
 /**
  * view method
  *
@@ -221,4 +217,6 @@ class CaronasController extends AppController {
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
-}
+            
+        
+                }

@@ -35,7 +35,7 @@
  */
 
 	Router::mapResources(array('users','caronas'));
-	Router::parseExtensions();
+	Router::parseExtensions('json');
 
 
 /**

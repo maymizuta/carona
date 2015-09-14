@@ -31,4 +31,44 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+
+    public $components = array(
+        'Session',
+        'RequestHandler',
+        'Auth' => array(
+//            'authorize'         => array('Controller'),// Linha retirada: erro ao identificar o root como controller
+            'authorize' => array('Actions' => array('actionPath' => 'controllers')),
+            'RequestHandler',
+        )
+    );
+
+    function beforeFilter() {
+
+        $this->Auth->allow('index', 'view', 'api_add', 'api_login', 'login');
+        //Definicao do formulario para login
+        $this->Auth->authenticate = array(
+            //username:campo do banco que sera usado para identificar o usuario
+            AuthComponent::ALL => array('fields' => array('username' => 'email')), 'Form');
+        $this->Auth->loginAction = array(
+            'plugin' => null,
+            'controller' => 'users',
+            'action' => 'api_login',
+        );
+        if (isset($this->request->params['ext']) && $this->request->params['ext'] == 'json') {
+            $this->Auth->authenticate = array('Basic');
+            if (!$this->Auth->login()) {
+                $this->response->statusCode(400);
+                $data = array(
+                    'status' => 400,
+                    'message' => array($this->Auth->authError),
+                );
+                $this->set('data', $data);
+                $this->set('_serialize', 'data');
+
+                $this->viewClass = 'Json';
+                $this->render();
+            }
+        }
+    }
+
 }
