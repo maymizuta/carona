@@ -15,6 +15,7 @@ class AppSchema extends CakeSchema {
 		'diaDaSemana' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 45, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 		'horarioDePartida' => array('type' => 'time', 'null' => false, 'default' => null),
 		'horarioDeSaida' => array('type' => 'time', 'null' => false, 'default' => null),
+		'carona_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 20, 'unsigned' => false, 'comment' => 'chave estrangeira de carona'),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),
@@ -28,6 +29,7 @@ class AppSchema extends CakeSchema {
 		'horarioDeSaida' => array('type' => 'time', 'null' => false, 'default' => null),
 		'incialLatitude' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 30, 'unsigned' => false),
 		'incialLongitude' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 30, 'unsigned' => false),
+		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 20, 'unsigned' => false, 'comment' => 'Chave estrangeira de users'),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),
@@ -36,6 +38,7 @@ class AppSchema extends CakeSchema {
 
 	public $historicos = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
+		'carona_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 20, 'unsigned' => false, 'comment' => 'chave estrangeira de caronas'),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),
@@ -61,6 +64,7 @@ class AppSchema extends CakeSchema {
 		'estado' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 		'modeloDoCarro' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 		'marca' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
+		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 20, 'unsigned' => false),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),
