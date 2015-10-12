@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Tempo de geração: 06/10/2015 às 13:41
+-- Generation Time: 12-Out-2015 às 12:19
 -- Versão do servidor: 5.6.24
--- Versão do PHP: 5.5.28
+-- PHP Version: 5.5.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,15 +17,16 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Banco de dados: `caronasolidaria`
+-- Database: `caronasolidaria`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `agendamentos`
+-- Estrutura da tabela `agendamentos`
 --
 
+DROP TABLE IF EXISTS `agendamentos`;
 CREATE TABLE IF NOT EXISTS `agendamentos` (
   `id` int(11) NOT NULL,
   `diaDaSemana` varchar(45) NOT NULL,
@@ -37,9 +38,10 @@ CREATE TABLE IF NOT EXISTS `agendamentos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `caronas`
+-- Estrutura da tabela `caronas`
 --
 
+DROP TABLE IF EXISTS `caronas`;
 CREATE TABLE IF NOT EXISTS `caronas` (
   `id` int(20) NOT NULL,
   `pontoInicial` varchar(255) NOT NULL,
@@ -51,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `caronas` (
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
--- Fazendo dump de dados para tabela `caronas`
+-- Extraindo dados da tabela `caronas`
 --
 
 INSERT INTO `caronas` (`id`, `pontoInicial`, `horarioDePartida`, `horarioDeSaida`, `incialLatitude`, `incialLongitude`, `user_id`) VALUES
@@ -60,9 +62,10 @@ INSERT INTO `caronas` (`id`, `pontoInicial`, `horarioDePartida`, `horarioDeSaida
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `historicos`
+-- Estrutura da tabela `historicos`
 --
 
+DROP TABLE IF EXISTS `historicos`;
 CREATE TABLE IF NOT EXISTS `historicos` (
   `id` int(11) NOT NULL,
   `carona_id` int(20) NOT NULL COMMENT 'chave estrangeira de caronas'
@@ -71,9 +74,25 @@ CREATE TABLE IF NOT EXISTS `historicos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `users`
+-- Estrutura da tabela `pedidos`
 --
 
+DROP TABLE IF EXISTS `pedidos`;
+CREATE TABLE IF NOT EXISTS `pedidos` (
+  `id` int(20) NOT NULL,
+  `user_id` int(20) NOT NULL COMMENT 'id do ususer que esta pedindo carona',
+  `carona_id` int(20) NOT NULL COMMENT 'id da carona ',
+  `aceito` tinyint(1) DEFAULT NULL COMMENT 'Se o pedido for aceito ou nao. Se estiver em null, ele ainda nao foi avaliado ',
+  `created` datetime DEFAULT NULL COMMENT 'data de criacao do pedido'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `users`
+--
+
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(20) NOT NULL,
   `nome` varchar(255) NOT NULL,
@@ -82,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 --
--- Fazendo dump de dados para tabela `users`
+-- Extraindo dados da tabela `users`
 --
 
 INSERT INTO `users` (`id`, `nome`, `email`, `password`) VALUES
@@ -91,9 +110,10 @@ INSERT INTO `users` (`id`, `nome`, `email`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `veiculos`
+-- Estrutura da tabela `veiculos`
 --
 
+DROP TABLE IF EXISTS `veiculos`;
 CREATE TABLE IF NOT EXISTS `veiculos` (
   `id` int(50) NOT NULL,
   `placa` varchar(20) NOT NULL,
@@ -106,65 +126,65 @@ CREATE TABLE IF NOT EXISTS `veiculos` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Índices de tabelas apagadas
+-- Indexes for dumped tables
 --
 
 --
--- Índices de tabela `agendamentos`
+-- Indexes for table `agendamentos`
 --
 ALTER TABLE `agendamentos`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `caronas`
+-- Indexes for table `caronas`
 --
 ALTER TABLE `caronas`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `historicos`
+-- Indexes for table `historicos`
 --
 ALTER TABLE `historicos`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `veiculos`
+-- Indexes for table `veiculos`
 --
 ALTER TABLE `veiculos`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT de tabelas apagadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de tabela `agendamentos`
+-- AUTO_INCREMENT for table `agendamentos`
 --
 ALTER TABLE `agendamentos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT de tabela `caronas`
+-- AUTO_INCREMENT for table `caronas`
 --
 ALTER TABLE `caronas`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
--- AUTO_INCREMENT de tabela `historicos`
+-- AUTO_INCREMENT for table `historicos`
 --
 ALTER TABLE `historicos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT de tabela `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
--- AUTO_INCREMENT de tabela `veiculos`
+-- AUTO_INCREMENT for table `veiculos`
 --
 ALTER TABLE `veiculos`
   MODIFY `id` int(50) NOT NULL AUTO_INCREMENT;
