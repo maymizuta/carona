@@ -299,7 +299,7 @@ class UsersController extends AppController {
             'conditions' => array('User.email' => $data['']['email']),
         ));
     //    var_dump($user);
-        if(is_null($user))
+        if($user==null)
             return false;
         if($user['User']['password'] !== AuthComponent::password($data['']['password'])) {
             return false;
