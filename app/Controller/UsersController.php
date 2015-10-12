@@ -273,6 +273,7 @@ class UsersController extends AppController {
                 'message' => array_values($messages),
                 '_serialize' => array('status', 'message')
             ));
+	    //$this->unset('User');
         }
         $this->viewClass = 'Json';
         $this->render();
@@ -297,7 +298,7 @@ class UsersController extends AppController {
         $user = $this->User->find('first', array(
             'conditions' => array('User.email' => $data['']['email']),
         ));
-        var_dump($user);
+    //    var_dump($user);
         if(is_null($user))
             return false;
         if($user['User']['password'] !== AuthComponent::password($data['']['password'])) {
