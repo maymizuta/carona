@@ -44,18 +44,18 @@ class AppController extends Controller {
 
     function beforeFilter() {
 
-        $this->Auth->allow('index', 'view', 'api_login', 'login', 'display','home');
+        $this->Auth->allow('index', 'view', 'api_login', 'login', 'display','home', 'api_index', 'api_add');
         //Definicao do formulario para login
         $this->Auth->authenticate = array(
             //username:campo do banco que sera usado para identificar o usuario
-            AuthComponent::ALL => array('fields' => array('username' => 'email')), 'Form');
+            AuthComponent::ALL => array('fields' => array('username' => 'email')), 'Form', 'Basic');
         $this->Auth->loginAction = array(
             'plugin' => null,
             'controller' => 'users',
             'action' => 'api_login',
         );
         if (isset($this->request->params['ext']) && $this->request->params['ext'] == 'json') {
-            $this->Auth->authenticate = array('Basic');
+            //$this->Auth->authenticate = array('Basic');
             if (!$this->Auth->login()) {
                 $this->response->statusCode(400);
                 $data = array(

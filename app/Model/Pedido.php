@@ -28,14 +28,14 @@ class Pedido extends AppModel {
 			'className' => 'User',
 			'foreignKey' => 'user_id',
 			'conditions' => '',
-			'fields' => '',
+			'fields' => array('email','id','nome'),
 			'order' => ''
 		),
 		'Carona' => array(
 			'className' => 'Carona',
 			'foreignKey' => 'carona_id',
 			'conditions' => '',
-			'fields' => '',
+			'fields' => array('id'),
 			'order' => ''
 		)
 	);

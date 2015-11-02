@@ -30,4 +30,10 @@ App::uses('Model', 'Model');
  * @package       app.Model
  */
 class AppModel extends Model {
+/**
+ * Use database config
+ *
+ * @var string
+ */
+	public $useDbConfig = 'caronasolidaria';
 }

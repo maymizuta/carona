@@ -15,8 +15,12 @@ class PedidosController extends AppController {
  *
  * @var array
  */
-	public $components = array('Paginator', 'Flash', 'Session');
+	public $components = array('Paginator', 'Flash', 'Session', 'RequestHandler','Auth');
 
+        public function beforeFilter() {
+            parent::beforeFilter();
+            $this->Auth->allow(array('api_add', 'api_index', 'api_view', 'api_accept'));
+        }
 /**
  * index method
  *
@@ -116,8 +120,10 @@ class PedidosController extends AppController {
  * @return void
  */
 	public function api_index() {
-		$this->Pedido->recursive = 0;
-		$this->set('pedidos', $this->Paginator->paginate());
+//Todo: Separar os pedidos de acordo com o id do usuário caroneiro
+                $userId = $this->Session->read('User.id');
+                $pedidos = $this->Pedido->findAllByUserId($userId);
+		$this->set(array('Pedidos' => $pedidos, '_serialize' => 'Pedidos'));
 	}
 
 /**
@@ -128,11 +134,12 @@ class PedidosController extends AppController {
  * @return void
  */
 	public function api_view($id = null) {
+                $this->data = $this->request->input('json_decode');
 		if (!$this->Pedido->exists($id)) {
 			throw new NotFoundException(__('Invalid pedido'));
 		}
 		$options = array('conditions' => array('Pedido.' . $this->Pedido->primaryKey => $id));
-		$this->set('pedido', $this->Pedido->find('first', $options));
+		$this->set(array('pedido'=> $this->Pedido->find('first', $options), '_serialize'=>array('pedido')));
 	}
 
 /**
@@ -141,18 +148,18 @@ class PedidosController extends AppController {
  * @return void
  */
 	public function api_add() {
+        	$this->data = $this->request->input('json_decode');
 		if ($this->request->is('post')) {
 			$this->Pedido->create();
 			if ($this->Pedido->save($this->request->data)) {
-				$this->Flash->success(__('The pedido has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+			  $message = "usuário salvo";
+                	  $this->set(array('message' => $message, '_serialize' => array('message')));
+
 			} else {
-				$this->Flash->error(__('The pedido could not be saved. Please, try again.'));
+			  $message = "Não foi possível salvar o pedido";
+                	  $this->set(array('message' => $message, '_serialize' => array('message')));
 			}
 		}
-		$users = $this->Pedido->User->find('list');
-		$caronas = $this->Pedido->Carona->find('list');
-		$this->set(compact('users', 'caronas'));
 	}
 
 /**
@@ -163,23 +170,22 @@ class PedidosController extends AppController {
  * @return void
  */
 	public function api_edit($id = null) {
+		$this->data = $this->request->input('json_decode');
 		if (!$this->Pedido->exists($id)) {
 			throw new NotFoundException(__('Invalid pedido'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Pedido->save($this->request->data)) {
-				$this->Flash->success(__('The pedido has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+			  	$message = "O pedido foi salvo com sucesso";
+                          	$this->set(array('message' => $message, '_serialize' => array('message')));
 			} else {
-				$this->Flash->error(__('The pedido could not be saved. Please, try again.'));
+				$message = "Não foi possível salvar o pedido";
+                          	$this->set(array('message' => $message, '_serialize' => array('message')));
 			}
 		} else {
 			$options = array('conditions' => array('Pedido.' . $this->Pedido->primaryKey => $id));
 			$this->request->data = $this->Pedido->find('first', $options);
 		}
-		$users = $this->Pedido->User->find('list');
-		$caronas = $this->Pedido->Carona->find('list');
-		$this->set(compact('users', 'caronas'));
 	}
 
 /**
@@ -190,16 +196,18 @@ class PedidosController extends AppController {
  * @return void
  */
 	public function api_delete($id = null) {
+                $this->data = $this->request->input('json_decode');
 		$this->Pedido->id = $id;
 		if (!$this->Pedido->exists()) {
 			throw new NotFoundException(__('Invalid pedido'));
 		}
 		$this->request->allowMethod('post', 'delete');
 		if ($this->Pedido->delete()) {
-			$this->Flash->success(__('The pedido has been deleted.'));
+			$message = "O pedido foi deletado";
+                        $this->set(array('message' => $message, '_serialize' => array('message')));
 		} else {
-			$this->Flash->error(__('The pedido could not be deleted. Please, try again.'));
+			$message = "O pedido não pode ser deletado, por favor tente novamente";
+                        $this->set(array('message' => $message, '_serialize' => array('message')));
 		}
-		return $this->redirect(array('action' => 'index'));
 	}
 }
