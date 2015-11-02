@@ -15,7 +15,7 @@ class UsersController extends AppController {
     public function beforeFilter() {
 //        parent::beforeFilter();
 
-        $this->Auth->allow(array('api_add', 'add', 'api_login', 'login')); // Permitindo que os usuários se registrem
+        $this->Auth->allow(array('api_add', 'add', 'api_login', 'login', 'api_index')); // Permitindo que os usuários se registrem
        // Basic setup
 //      $this->Auth->authenticate = array('Basic','Form');
         // Pass settings in
@@ -304,7 +304,8 @@ class UsersController extends AppController {
         if($user['User']['password'] !== AuthComponent::password($data['']['password'])) {
             return false;
         }
-
+        
+        $this->Session->write('User.id', $user['User']['id']);
         unset($user['User']['password']); 
         return $user;//retorna o usuário caso deseje utilizar o Authcomponent::login
     }
