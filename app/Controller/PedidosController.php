@@ -194,18 +194,23 @@ class PedidosController extends AppController {
      */
     public function api_confirm() {
         $this->data = $this->request->input('json_decode');
-        if ($this->request->is('post') &&
-            $pedido[array('Carona' => array('user_id'))] == $this->Session['User.id']) {
-            $aceito = $this->data[array('Pedido'=>array('aceito'))];
-            $pedido = $this->Pedido->findById($this->data[array('Pedido' => 'id')]);
+        $pedido = $this->Pedido->findById($this->data[array('Pedido' => 'id')]);
+        try {
+            if (isset($pedido))
+                if ($this->request->is('post') &&
+                        $pedido[array('Carona' => array('user_id'))] == $this->Session['User.id']) {
+                    $aceito = $this->data[array('Pedido' => array('aceito'))];
 //          Aceita ou não o pedido 
-            $pedido[array('aceito' => $aceito)];
+                    $pedido[array('aceito' => $aceito)];
 //            $this->Pedido->User[array("id" => $this->Session->read('User.id'))];
-            $message = ($this->Pedido->save($this->request->data)) ?
-                    "Pedido salvo" :
-                    "Não foi possível salvar o pedido";
-        }else{
-            $message = "Não foi possível confirmar o pedido";
+                    $message = ($this->Pedido->save($this->request->data)) ?
+                            "Pedido Salvo" :
+                            "Não foi possível salvar o pedido";
+                } else {
+                    $message = "Não foi possível confirmar o pedido";
+                }
+        } catch (Exception $e) {
+            CakeLog::write("debug", "Erro ao aceitar o pedido" & $e->getMessage());
         }
         $this->set(array('message' => $message, '_serialize' => array('message')));
     }
