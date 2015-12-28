@@ -19,8 +19,8 @@ class PedidosController extends AppController {
      */
     public $components = array('Paginator', 'Flash', 'Session', 'RequestHandler', 'Auth');
 
-    public function beforeFilter() {
-        parent::beforeFilter();
+    function beforeFilter() {
+//        parent::beforeFilter();
         $this->Auth->allow(array('api_add', 'api_index', 'api_view', 'api_accept'));
     }
 
@@ -118,7 +118,7 @@ class PedidosController extends AppController {
     }
 
     /**
-     * api_index method
+     * Lista pedidos de carona de acordo com o usuário caroneiro
      *
      * @return void
      */
@@ -146,7 +146,7 @@ class PedidosController extends AppController {
     }
 
     /**
-     * api_add method
+     * Adiciona pedidos de carona
      *
      * @return void
      */
