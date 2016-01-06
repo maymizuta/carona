@@ -13,7 +13,6 @@ App::uses('AppController', 'Controller');
 class UsersController extends AppController {
 
     public function beforeFilter() {
-//        parent::beforeFilter();
 
         $this->Auth->allow(array('api_add', 'add', 'api_login', 'login', 'api_index')); // Permitindo que os usuários se registrem
        // Basic setup
@@ -33,15 +32,7 @@ class UsersController extends AppController {
     public $components = array('Paginator', 'Flash', 'Session', 'RequestHandler');
     public $helpers = array('Html', 'Form', 'Session');
 
-    /**
-     * index method
-     *
-     * @return void
-     */
-    public function index() {
-        $this->User->recursive = 0;
-        $this->set('users', $this->Paginator->paginate());
-    }
+
 
     /**
      * index method api
@@ -49,7 +40,7 @@ class UsersController extends AppController {
      * @return void
      */
     public function api_index() {
-        $users = $this->User->find('all');
+        $users = $this->User->find('all', array('fields'=>array('nome','email')));
         $this->set(array('users' => $users, '_serialize' => 'users'));
     }
 
