@@ -20,8 +20,8 @@ class PedidosController extends AppController {
     public $components = array('Paginator', 'Flash', 'Session', 'RequestHandler', 'Auth');
 
     function beforeFilter() {
-//        parent::beforeFilter();
-        $this->Auth->allow(array('api_add', 'api_index', 'api_view', 'api_accept'));
+        parent::beforeFilter();
+        //$this->Auth->allow(array('api_add', 'api_index', 'api_view', 'api_accept'));
     }
 
     /**
@@ -194,23 +194,22 @@ class PedidosController extends AppController {
      */
     public function api_confirm() {
         $this->data = $this->request->input('json_decode');
-        $pedido = $this->Pedido->findById($this->data[array('Pedido' => 'id')]);
+        $pedido = $this->Pedido->findById($this->data->Pedido->id);
         try {
             if (isset($pedido))
                 if ($this->request->is('post') &&
-                        $pedido[array('Carona' => array('user_id'))] == $this->Session['User.id']) {
-                    $aceito = $this->data[array('Pedido' => array('aceito'))];
-//          Aceita ou não o pedido 
-                    $pedido[array('aceito' => $aceito)];
-//            $this->Pedido->User[array("id" => $this->Session->read('User.id'))];
-                    $message = ($this->Pedido->save($this->request->data)) ?
+                        $pedido['Carona']['user_id'] == $this->Session->read('User.id')) {
+                    CakeLog::write('debug', 'Aceita ou não o pedido');
+                    $pedido[array('aceito' => $this->data->Pedido->aceito)];
+                    $message = ($this->Pedido->save()) ?
                             "Pedido Salvo" :
                             "Não foi possível salvar o pedido";
                 } else {
                     $message = "Não foi possível confirmar o pedido";
                 }
         } catch (Exception $e) {
-            CakeLog::write("debug", "Erro ao aceitar o pedido" & $e->getMessage());
+            CakeLog::write("debug", "Erro ao aceitar o pedido" . $e->getMessage());
+            $message = "Erro ao aceitar o pedido";
         }
         $this->set(array('message' => $message, '_serialize' => array('message')));
     }
