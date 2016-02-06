@@ -35,7 +35,7 @@ class Pedido extends AppModel {
 			'className' => 'Carona',
 			'foreignKey' => 'carona_id',
 			'conditions' => '',
-			'fields' => array('id'),
+			'fields' => array('id', 'user_id'),
 			'order' => ''
 		)
 	);
