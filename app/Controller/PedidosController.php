@@ -199,7 +199,6 @@ class PedidosController extends AppController {
             if (isset($pedido))
                 if ($this->request->is('post') &&
                         $pedido['Carona']['user_id'] == $this->Session->read('User.id')) {
-                    CakeLog::write('debug', 'Aceita ou não o pedido');
                     $pedido["Pedido"]["aceito"] = $this->data->Pedido->aceito;
                     $this->Pedido->set($pedido);
                     $message = ($this->Pedido->save()) ?
