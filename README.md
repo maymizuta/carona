@@ -40,9 +40,15 @@ Envio
 json: {"Pedido":{"id":2, "aceito":1}}
 
 Retorno:
+
 Encontrado e confirmado/recusado o pedido
+
 {"message":"Pedido Salvo"}
+
 Encontrado porém não foi possível salvar o pedido
+
 {"message":"Não foi possível salvar o pedido"}
+
 Não encontrado o pedido.
+
 {"message":"Não foi possível confirmar o pedido"}
