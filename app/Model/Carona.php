@@ -22,5 +22,11 @@ class Carona extends AppModel {
             'fields' => array('id'),
             'order' => ''
     ));
-
+    public $hasOne = array('User'=>
+        array(
+            'className' => 'User',
+            'foreignKey' =>'',
+            'fields'=> array('id','nome')
+        ));
+    
 }
