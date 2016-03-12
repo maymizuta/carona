@@ -27,16 +27,46 @@ class CaronasController extends AppController {
         $this->set('caronas', $this->Paginator->paginate());
     }
 
+
     /**
      * index method api
      *
      * @return void
      */
     public function api_index() {
-        $carona = $this->Carona->find('all');
+        /*
+SET @lat = the latitude of the point
+SET @lon = the longitude of the point
+SET @rad = radius in Kilometers to search from the point
+SET @table = name of your table
+
+SELECT
+    X(point),Y(point),*, (
+      6373 * acos (
+      cos ( radians( @lat ) )
+      * cos( radians( X(point) ) )
+      * cos( radians( Y(point) ) - radians( @lon ) )
+      + sin ( radians( @lat ) )
+      * sin( radians( X(point) ) )
+    )
+) AS distance
+FROM @table
+HAVING distance < @rad*/
+        /*
+SELECT 
+    *
+FROM 
+    `locator`
+WHERE
+    SQRT(POW(X(`center`) - 49.843317 , 2) + POW(Y(`center`) - 24.026642, 2)) * 100 < `radius`
+                  */
+        $lat = isset($this->request->query['lat']);
+        $long = isset($this->request->query['long']);
+        
+        $carona = $this->Carona->findNear($lat,$long);
         $this->set(array('carona' => $carona, '_serialize' => 'carona'));
     }
-
+    
     /**
      * view method
      *
