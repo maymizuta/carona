@@ -22,6 +22,13 @@
 
   json : {"id":"1","pontoInicial":"inicio","horarioDePartida":"00:00:00","horarioDeSaida":"00:00:00","incialLatitude":0,"incialLongitude":0}
 
+##Listar caronas
+  Método GET
+
+  localhost\carona\api\caronas\index.json?lat=0.0&long=0.0
+
+Deve receber as caronas em formato json.
+  
 ##Lista de pedidos
   Método POST/GET
 
