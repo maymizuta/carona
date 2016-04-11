@@ -44,7 +44,7 @@ class AppController extends Controller {
 
     function beforeFilter() {
 
-        $this->Auth->allow('index', 'view', 'api_login', 'login', 'display','home', 'api_index', 'api_add');
+        $this->Auth->allow('index', 'view', 'api_login', 'login', 'display','home', 'api_index', 'api_add', 'api_delete', 'api_edit');
         //Definicao do formulario para login
         $this->Auth->authenticate = array(
             //username:campo do banco que sera usado para identificar o usuario

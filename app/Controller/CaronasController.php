@@ -34,32 +34,7 @@ class CaronasController extends AppController {
      * @return void
      */
     public function api_index() {
-        /*
-SET @lat = the latitude of the point
-SET @lon = the longitude of the point
-SET @rad = radius in Kilometers to search from the point
-SET @table = name of your table
 
-SELECT
-    X(point),Y(point),*, (
-      6373 * acos (
-      cos ( radians( @lat ) )
-      * cos( radians( X(point) ) )
-      * cos( radians( Y(point) ) - radians( @lon ) )
-      + sin ( radians( @lat ) )
-      * sin( radians( X(point) ) )
-    )
-) AS distance
-FROM @table
-HAVING distance < @rad*/
-        /*
-SELECT 
-    *
-FROM 
-    `locator`
-WHERE
-    SQRT(POW(X(`center`) - 49.843317 , 2) + POW(Y(`center`) - 24.026642, 2)) * 100 < `radius`
-                  */
         $lat = isset($this->request->query['lat']);
         $long = isset($this->request->query['long']);
         
@@ -87,29 +62,12 @@ WHERE
      *
      * @return void
      */
-    public function add() {
-        if ($this->request->is('post')) {
-            $this->Carona->create();
-            if ($this->Carona->save($this->request->data)) {
-                $this->Flash->success(__('The carona has been saved.'));
-                return $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Flash->error(__('The carona could not be saved. Please, try again.'));
-            }
-        }
-    }
-
-    /**
-     * add method
-     *
-     * @return void
-     */
     public function api_add() {
         $this->data = $this->request->input('json_decode');
         if ($this->request->is('post')) {
             $this->Carona->create();
             if ($this->Carona->save($this->request->data)) {
-                $message = "salvo com sucesso";
+                $message = "Salvo com sucesso";
             } else {
                 $message = "Não foi possível salvar";
             }
@@ -117,6 +75,7 @@ WHERE
         }
     }
 
+    
     /**
      * edit method
      *
@@ -124,23 +83,24 @@ WHERE
      * @param string $id
      * @return void
      */
-    public function edit($id = null) {
-        if (!$this->Carona->exists($id)) {
-            throw new NotFoundException(__('Invalid carona'));
+    public function api_edit() {
+        $this->data = $this->request->input('json_decode');
+        if (!$this->Carona->exists($this->data->Carona->id)) {
+            $message = array('message'=>"Carona inexistente");
+            $this->set(array('message' => $message, '_serialize' => 'message'));
+            return;
         }
         if ($this->request->is(array('post', 'put'))) {
             if ($this->Carona->save($this->request->data)) {
-                $this->Flash->success(__('The carona has been saved.'));
-                return $this->redirect(array('action' => 'index'));
+                $message = array('message'=>"Carona salva");
             } else {
-                $this->Flash->error(__('The carona could not be saved. Please, try again.'));
+                $message = array('message'=>"Não foi possível salvar a carona");
             }
-        } else {
-            $options = array('conditions' => array('Carona.' . $this->Carona->primaryKey => $id));
-            $this->request->data = $this->Carona->find('first', $options);
         }
+        $this->set(array('message' => $message, '_serialize' => 'message'));
     }
 
+    
     /**
      * delete method
      *
@@ -148,20 +108,21 @@ WHERE
      * @param string $id
      * @return void
      */
-    public function delete($id = null) {
-        $this->Carona->id = $id;
-        if (!$this->Carona->exists()) {
-            throw new NotFoundException(__('Invalid carona'));
-        }
+    public function api_delete($id = null) {
+        $this->data = $this->request->input('json_decode');
         $this->request->allowMethod('post', 'delete');
-        if ($this->Carona->delete()) {
-            $this->Flash->success(__('The carona has been deleted.'));
-        } else {
-            $this->Flash->error(__('The carona could not be deleted. Please, try again.'));
+        if (!$this->Carona->exists($this->data->Carona->id)) {
+            $message = "A carona não existe";
+            $this->set(array('message' => $message, '_serialize' => array('message')));
+            return;
         }
-        return $this->redirect(array('action' => 'index'));
+        if ($this->Carona->delete($this->data->Carona->id)) {
+            $message = "A carona foi deletada";
+        } else {
+            $message = "A carona não pode ser deletada, por favor tente novamente";
+        }
+        $this->set(array('message' => $message, '_serialize' => array('message')));
     }
-
     /**
      * admin_index method
      *

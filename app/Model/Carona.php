@@ -37,7 +37,7 @@ class Carona extends AppModel {
      * @param type $radius distancia máxima a ser localizada
      * @return type
      */
-    public function findNear($lat,$long, $radius = 10){
+    public function findNear($lat,$long, $radius = 10.0){
         /**
          * @link http://www.plumislandmedia.net/mysql/haversine-mysql-nearest-loc/ Havisine
          * DEGREES(ACOS(COS(RADIANS('inicialLatitude')) * COS(RADIANS($lat)) *
@@ -47,6 +47,6 @@ class Carona extends AppModel {
          */
         return $this->find('all',array("conditions"=> "DEGREES(ACOS(COS(RADIANS('inicialLatitude')) * COS(RADIANS($lat)) * " .
                                                       "COS(RADIANS('inicialLongitude') - RADIANS($long)) + " .
-                                                      "SIN(RADIANS('inicialLatitude')) * SIN(RADIANS($lat))))* 111.045 <= $radius"));
+                                                      "SIN(RADIANS('inicialLatitude')) * SIN(RADIANS($lat)))) * 111.045 >= $radius"));
     }
 }

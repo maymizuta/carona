@@ -171,8 +171,10 @@ class PedidosController extends AppController {
      */
     public function api_edit($id = null) {
         $this->data = $this->request->input('json_decode');
-        if (!$this->Pedido->exists($id)) {
-            throw new NotFoundException(__('Invalid pedido'));
+        if (!$this->Pedido->exists($this->data->Pedido->id)) {
+            $message = "O pedido não existe";
+            $this->set(array('message' => $message, '_serialize' => array('message')));
+            return;
         }
         if ($this->request->is(array('post', 'put'))) {
             if ($this->Pedido->save($this->request->data)) {
@@ -182,10 +184,7 @@ class PedidosController extends AppController {
                 $message = "Não foi possível salvar o pedido";
                 $this->set(array('message' => $message, '_serialize' => array('message')));
             }
-        } else {
-            $options = array('conditions' => array('Pedido.' . $this->Pedido->primaryKey => $id));
-            $this->request->data = $this->Pedido->find('first', $options);
-        }
+        } 
     }
 
     /**
@@ -222,19 +221,19 @@ class PedidosController extends AppController {
      * @return void
      */
     public function api_delete($id = null) {
-        $this->data = $this->request->input('json_decode');
-        $this->Pedido->id = $id;
-        if (!$this->Pedido->exists()) {
-            throw new NotFoundException(__('Invalid pedido'));
-        }
         $this->request->allowMethod('post', 'delete');
-        if ($this->Pedido->delete()) {
-            $message = "O pedido foi deletado";
+        $this->data = $this->request->input('json_decode');
+        if (!$this->Pedido->exists($this->data->Pedido->id )) {
+            $message = "O pedido não existe";
             $this->set(array('message' => $message, '_serialize' => array('message')));
+            return;
+        }
+        if ($this->Pedido->delete($this->data->Pedido->id)) {
+            $message = "O pedido foi deletado";
         } else {
             $message = "O pedido não pode ser deletado, por favor tente novamente";
-            $this->set(array('message' => $message, '_serialize' => array('message')));
         }
+        $this->set(array('message' => $message, '_serialize' => array('message')));
     }
 
 }
