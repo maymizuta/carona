@@ -11,6 +11,11 @@
 
   json:{"User":{"email":"email@example.com","password":"password"}}
 
+##Logout
+  Método qualquer
+
+  localhost\carona\api\users\logout.json
+
 ##Cadastro do usuário
   Método POST
 
