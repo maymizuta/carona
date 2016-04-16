@@ -71,7 +71,7 @@ class CaronasController extends AppController {
             } else {
                 $message = "Não foi possível salvar";
             }
-            $this->set(array('message' => $message, '_serialize' => 'message'));
+            $this->set(array('message' => $message, '_serialize' => array('message')));
         }
     }
 
