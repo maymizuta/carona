@@ -24,7 +24,8 @@
 
   localhost\carona\api\caronas\add.json
 
-  json : {"id":"1","pontoInicial":"inicio","horarioDePartida":"00:00:00","horarioDeSaida":"00:00:00","incialLatitude":0,"incialLongitude":0}
+  json : 
+{"Carona":{"pontoInicial":"inicio","horarioDePartida":"00:00:00","horarioDeSaida":"00:00:00","incialLatitude":0,"incialLongitude":0}}
 
 ##Editar carona
   Método POST/PUT
