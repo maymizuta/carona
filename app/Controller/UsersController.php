@@ -13,7 +13,7 @@ App::uses('AppController', 'Controller');
 class UsersController extends AppController {
 
     public function beforeFilter() {
-
+        parent::beforeFilter();
         $this->Auth->allow(array('api_add', 'add', 'api_login', 'login', 'api_index')); // Permitindo que os usuários se registrem
        // Basic setup
 //      $this->Auth->authenticate = array('Basic','Form');
@@ -249,15 +249,15 @@ class UsersController extends AppController {
                 $this->Auth->login($identifiedUser);
                 $this->response->statusCode(200);
                 $status = $this->response->statusCode();
-                $messages = array(__('Login com sucesso'));
+                $message = "Login com sucesso";
             } else {
                 $this->response->statusCode(400);
                 $status = $this->response->statusCode();
-                $messages = array(__("Senha ou email incorretos"));
+                $message = "Senha ou email incorretos";
             }
             $this->set(array(
                 'status' => $status,
-                'message' => array_values($messages),
+                'message' => $message,
                 '_serialize' => array('status', 'message')
             ));
 	    //$this->unset('User');
