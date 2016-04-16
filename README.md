@@ -5,14 +5,14 @@
 
   localhost\carona\api\users\login.json
 
-  json:{'email':'seuemail@email.com','password':'suasenha'}
+  json:{"email":"seuemail@email.com","password":"suasenha"}
 
 ##Cadastro do usuário
   Método POST
 
   localhost\carona\api\users\add.json
 
-  json:{'User':{'email':'seuemail@email.com','password':'suasenha','nome':'seunome'}}
+  json:{"User":{"email":"seuemail@email.com","password":"suasenha","nome":"seunome"}}
 
 
 ##Cadastro de carona
