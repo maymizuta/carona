@@ -260,7 +260,6 @@ class UsersController extends AppController {
                 'message' => $message,
                 '_serialize' => array('status', 'message')
             ));
-	    //$this->unset('User');
         }
         $this->viewClass = 'Json';
         $this->render();
