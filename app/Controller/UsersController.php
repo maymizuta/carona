@@ -14,7 +14,7 @@ class UsersController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow(array('api_add', 'add', 'api_login', 'login', 'api_index')); // Permitindo que os usuários se registrem
+        $this->Auth->allow(array('api_add', 'add', 'api_login', 'login', 'api_index','api_logout')); // Permitindo que os usuários se registrem
        // Basic setup
 //      $this->Auth->authenticate = array('Basic','Form');
         // Pass settings in
@@ -270,6 +270,14 @@ class UsersController extends AppController {
      */
     public function api_logout() {
         $this->Auth->logout();
+        $this->response->statusCode(200);
+                $status = $this->response->statusCode();
+                $message = "Logout com sucesso";
+        $this->set(array(
+                'status' => $status,
+                'message' => $message,
+                '_serialize' => array('status', 'message')
+            ));
         $this->viewClass = 'Json';
         $this->render();
     }
