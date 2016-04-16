@@ -6,6 +6,10 @@
   localhost\carona\api\users\login.json
 
   json:{"email":"seuemail@email.com","password":"suasenha"}
+  
+  ou
+
+  json:{"User":{"email":"email@example.com","password":"password"}}
 
 ##Cadastro do usuário
   Método POST

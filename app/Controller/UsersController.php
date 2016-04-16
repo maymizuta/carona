@@ -88,13 +88,9 @@ class UsersController extends AppController {
             if ($this->User->save($this->request->data)) {
                 $message = "usuário salvo";
                 $this->set(array('message' => $message, '_serialize' => array('message')));
-
-                //   $this->Flash->success(__('The user has been saved.'));
-                //   return $this->redirect(array('action' => 'index'));
             } else {
                 $message = "Não foi possível salvar o usuário";
                 $this->set(array('message' => $message, '_serialize' => array('message')));
-                //   $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
         }
     }
@@ -238,8 +234,8 @@ class UsersController extends AppController {
     public function api_login() {
         $this->Auth->logout();
         $this->data = $this->request->input('json_decode');
-        $tmpUser['User']['email'] = $this->data->email;
-        $tmpUser['User']['password'] = $this->data->password;
+        $tmpUser['User']['email'] = (isset($this->data->User->email))?$this->data->User->email:$this->data->email;
+        $tmpUser['User']['password'] = (isset($this->data->User->password))?$this->data->User->password:$this->data->password;
 
         $this->data = array(
             $this->Auth->userModel => array(
