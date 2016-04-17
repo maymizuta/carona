@@ -44,7 +44,7 @@
 
   localhost\carona\api\caronas\delete.json
 
-  json : {Carona:{"id":"1","pontoInicial":"inicio","horarioDePartida":"00:00:00","horarioDeSaida":"00:00:00","incialLatitude":0,"incialLongitude":0}}
+  json : {Carona:{"id":"1"}}
 
 ##Listar caronas
   Método GET
@@ -69,11 +69,11 @@ Retorno
   json : {"Pedido":{"id":"1","user_id":"9","carona_id":"1","aceito":null,"created":null},"User":{"email":"email@example.com","id":"9","nome":"nome"},"Carona":{"id":"1"}},{"Pedido":{"id":"2","user_id":"9","carona_id":"1","aceito":null,"created":null},"User":{"email":"email@example.com","id":"9","nome":"nome"},"Carona":{"id":"1"}}
 
 ##Deletar pedidos
-  Método POST/DELETAR
+  Método POST/DELETE
 
   localhost\carona\api\pedidos\delete.json
 
-  json : {"Pedido":{"id":"1","user_id":"9","carona_id":"1","aceito":null,"created":null},"User":{"email":"email@example.com","id":"9","nome":"nome"},"Carona":{"id":"1"}},{"Pedido":{"id":"2","user_id":"9","carona_id":"1","aceito":null,"created":null},"User":{"email":"email@example.com","id":"9","nome":"nome"},"Carona":{"id":"1"}}
+  json : {"Pedido":{"id":"1"}}
 
 
 ##Aceitar/Recusar pedido
