@@ -34,39 +34,36 @@ class AppController extends Controller {
 
     public $components = array(
         'Session',
-        'RequestHandler',
-        'Auth' => array(
-//            'authorize'         => array('Controller'),// Linha retirada: erro ao identificar o root como controller
-            'authorize' => array('Actions' => array('actionPath' => 'controllers')),
-            'RequestHandler',
-        )
+        'Auth' => array()
     );
 
     function beforeFilter() {
-
-        $this->Auth->allow('index', 'view', 'api_login', 'login', 'display','home', 'api_index', 'api_add', 'api_delete', 'api_edit');
         //Definicao do formulario para login
         $this->Auth->authenticate = array(
             //username:campo do banco que sera usado para identificar o usuario
-            AuthComponent::ALL => array('fields' => array('username' => 'email')),'Basic' ,'Form');
-        $this->Auth->loginAction = array(
-            'plugin' => null,
-            'controller' => 'users',
-            'action' => 'api_login',
-        );
+            AuthComponent::ALL => array('fields' => array('username' => 'email')),
+                                        'Basic' =>array('userModel'=>'User') ,
+                                        'Form'=>array('userModel'=>'User'));
+        $this->Auth->loginAction = null;
+        
+        $this->Auth->allow('index', 'view', 'api_login', 'login', 'api_index', 'api_add');
+        
         if (isset($this->request->params['ext']) && $this->request->params['ext'] == 'json') {
-            $this->Auth->authenticate = array('Basic');
+            //$this->Auth->autoRedirect = false;
+
+           /* $this->Auth->authenticate = array('Basic'=>array('userModel'=>'User'), 
+                                              'Form'=>array('userModel'=>'User'));*/
             if (!$this->Auth->loggedIn()) {
-                $this->response->statusCode(400);
+                $this->Auth->authError = "Usuário não logado";
                 $data = array(
-                    'status' => 400,
-                    'message' => array($this->Auth->authError),
+                    'status' => 401,
+                    'message' => $this->Auth->authError,
                 );
                 $this->set('data', $data);
                 $this->set('_serialize', 'data');
-
                 $this->viewClass = 'Json';
                 $this->render();
+                $this->header('HTTP/1.1 401');
             }
         }
     }
