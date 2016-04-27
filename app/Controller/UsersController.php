@@ -13,11 +13,9 @@ App::uses('AppController', 'Controller');
 class UsersController extends AppController {
 
     public function beforeFilter() {
-        parent::beforeFilter();
-        $this->Auth->allow(array('api_add', 'add', 'api_login', 'login', 'api_index','api_logout')); // Permitindo que os usuários se registrem
-       // Basic setup
-//      $this->Auth->authenticate = array('Basic','Form');
-        // Pass settings in
+        //parent::beforeFilter();
+        $this->Auth->allow(array('api_add', 'add', 'api_login', 'login', 'api_logout')); // Permitindo que os usuários se registrem
+
         $this->Auth->authenticate = array(
             'Basic' => array('userModel' => 'User', 'username' => 'email', 'password' => 'password'),
             'Form' => array('userModel' => 'User', 'username' => 'email', 'password' => 'password'),
