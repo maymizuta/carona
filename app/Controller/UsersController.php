@@ -15,6 +15,7 @@ class UsersController extends AppController {
     public function beforeFilter() {
         //parent::beforeFilter();
         $this->Auth->allow(array('api_add', 'add', 'api_login', 'login', 'api_logout')); // Permitindo que os usuários se registrem
+        $this->Auth->loginAction = null;
 
         $this->Auth->authenticate = array(
             'Basic' => array('userModel' => 'User', 'username' => 'email', 'password' => 'password'),
